@@ -9,6 +9,7 @@ public class FileManager {
     private static final String MISSING_FILE_ERROR_F = "No such file %s , aborting..";
 
     public static String BASE_IMPORT_PACKAGE;
+    public static String RESOURCES_PATH = "../src/main/resources";
     public static String JAVA_BASE_PATH = "../src/main/java";
     public static String JAVA_BASE_TEST_PATH = "../src/test/java";
     public static String JAVA_CORE_PACKAGE_PATH;
@@ -58,6 +59,11 @@ public class FileManager {
         File defaultPackage = new File(JAVA_BASE_PATH + "/" + groupFolderStructure);
         if (!defaultPackage.mkdirs())
             throw new RuntimeException(FOLDER_ERROR_F.formatted(defaultPackage.getName()));
+
+        File resources = new File(RESOURCES_PATH);
+        if(!resources.mkdirs())
+            throw new RuntimeException(FOLDER_ERROR_F.formatted(resources.getName()));
+
         File testPackage = new File(JAVA_BASE_TEST_PATH + "/" + groupFolderStructure);
         if(!testPackage.mkdirs())
             throw new RuntimeException(FOLDER_ERROR_F.formatted(testPackage.getName()));

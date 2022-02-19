@@ -7,10 +7,10 @@ public class BoilerPlateGenerator {
         var config = Configuration.parseArguments(args);
         var className = domainObjectClassName(config);
 
+        createFolderStructure(config);
         createPomFile(config);
         createYamlFile(config);
         createLombokConfigFile();
-        createFolderStructure(config);
         createDomainObjects(config, className);
         createInterfaces(className);
         createService(className);
