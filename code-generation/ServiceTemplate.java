@@ -12,7 +12,7 @@ public class ServiceTemplate {
                         
             public class ServiceImplementation implements @{className}@Service {
                \s
-                @{className}@Repository @{classNameLower}@Repository;
+                private final @{className}@Repository @{classNameLower}@Repository;
                         
                 public ServiceImplementation(@{className}@Repository @{classNameLower}@Repository) {
                     this.@{classNameLower}@Repository = @{classNameLower}@Repository;

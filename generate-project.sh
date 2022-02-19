@@ -108,4 +108,4 @@ rm README.md
 echo "## ${serviceName}" > README.md
 echo "Run \`mvn clean install && java -jar target/*.jar\`" >> README.md
 rm generate-project.sh
-
+mvn clean install && java -jar target/*.jar
