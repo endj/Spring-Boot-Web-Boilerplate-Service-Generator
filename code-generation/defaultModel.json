@@ -1,0 +1,17 @@
+{
+  "apple": "boolean",
+  "somenumbers": [
+    "integer"
+  ],
+  "abc": [
+    {
+      "aa": "String",
+      "bb": "Integer"
+    }
+  ],
+  "nested": {
+    "verynested": {
+      "cool": "String"
+    }
+  }
+}
