@@ -15,7 +15,6 @@ printUsage() {
 
     ${bold}---- Optional parameters ----${normal}
 
-     -d <true | false>  ( Database enabled, default false )
      -j <pathToJsonFile>
 
 
@@ -24,54 +23,26 @@ printUsage() {
     ${bold}[ -j ]${normal}
 
     JSON domain model file property should point to a file containing a JSON payload that
-    represents some domain object such as a Person. If a valid JSON model is provided,
+    represents some domain object such as a Person and what types fields have. If a JSON model is provided,
     a CRUD REST based API will be generated using the JSON model.
 
-    If no JSON model is provided. A CRUD REST API based on the following domain model will
-    be provided instead. Code that maps from Request/Response to domain model will also be generated.
-
-    {
-      \"id\": <long type>,
-      \"externalId\": <UUID type>,
-      \"data\": <String type>
-    }
-
-    ${bold}[ -d ]${normal}
-
-    With database property toggle sets up all boilerplate code to connect to a
-    postgres database if enabled including:
-
-    * Outgoing port interface
-    * Interface implementation with result mappers and crud operations
-    * Schema migration code including tables and schema
-    * Hikkari connection pool and configuration properties
 
     ${bold}NOTE!${normal}
 
-    If a JSON model file is provided through the ${bold}-j${normal} property,
-    database code will generate crud operations based on the JSON model. If no
-    JSON definition file is provided, the application will generate code for the
-    following model
-
-    {
-      \"id\": <long type>,
-      \"externalId\": <UUID type>,
-      \"createdAt\": <LocalDateTime type>,
-      \"data\": <String type>
-    }
+    If no JSON definition file is provided, the application will generate code defined
+    in code-generation/defaultModel.json
 
     ${bold}---- Example usage ----${normal}
 
 
-    Generate service with database and a specific model
+    Generate service with HTTP API and a specific domain model
 
     ./generate-project.sh -g se.edinjakupovic \\
                        -a cool-service \\
                        -s cool-serviceName \\
-                       -d true \\
                        -j ./employee.json
 
-    Generate a service with a default model and no database
+    Generate a service with default model
 
     ./generate-project.sh -g se.edinjakupovic \\
                        -a cool-service \\
@@ -82,15 +53,13 @@ printUsage() {
 groupId=""
 artifactId=""
 serviceName=""
-withDatabase="false"
 domainJsonDefinitionFile=""
 
-while getopts g:a:s:d:j:h o; do
+while getopts g:a:s:j:h o; do
   case $o in
     (g) groupId=$OPTARG;;
     (a) artifactId=$OPTARG;;
     (s) serviceName=$OPTARG;;
-    (d) withDatabase=$OPTARG;;
     (j) domainJsonDefinitionFile=$OPTARG;;
     (h) printUsage;;
     (*) echo "Unrecognized argument ${OPTARG}"
@@ -117,11 +86,6 @@ if [ -n "$domainJsonDefinitionFile" ] && ! [ -e "$domainJsonDefinitionFile" ] ; 
         exit 1
 fi
 
-if [ -n "$withDatabase" ] && [ "$withDatabase" != "true" ] && [ "$withDatabase" != "false" ] ; then
-    echo "Expected either \"true\" or \"false\" for property withDatabase, got [${withDatabase}]"
-    exit 1
-fi
-
 if [ -n "$domainJsonDefinitionFile" ] ; then
   cp "${domainJsonDefinitionFile}" code-generation/ || (echo "failed to copy jsonDefinition" && exit 1)
 fi
@@ -134,11 +98,13 @@ java BoilerPlateGenerator \
      groupId="${groupId}" \
      artifactId="${artifactId}" \
      serviceName="${serviceName}" \
-     withDatabase="${withDatabase}" \
      domainJsonDefinitionFile="${domainJsonDefinitionFile}"
 
 rm ./*.class
 
 cd ..
 rm -r code-generation
+rm README.md
+echo "## ${serviceName}" > README.md
+rm generate-project.sh
 

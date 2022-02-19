@@ -5,7 +5,6 @@ public class Configuration {
     private final String groupId;
     private final String artifactId;
     private final String serviceName;
-    private final Boolean withDatabase;
     private final String jsonDefinitionFile;
 
 
@@ -18,7 +17,6 @@ public class Configuration {
         this.groupId = requiredArg(args, "groupId");
         this.artifactId = requiredArg(args, "artifactId");
         this.serviceName = requiredArg(args, "serviceName");
-        this.withDatabase = Boolean.valueOf(optionalArg(args, "withDatabase").orElse("false"));
         this.jsonDefinitionFile = optionalArg(args, "domainJsonDefinitionFile").orElse(null);
     }
 
@@ -34,9 +32,6 @@ public class Configuration {
         return serviceName;
     }
 
-    public Boolean withDatabase() {
-        return withDatabase;
-    }
 
     public Optional<String> getJsonDefinitionFile() {
         return Optional.ofNullable(jsonDefinitionFile);
@@ -63,14 +58,4 @@ public class Configuration {
         return arg.contains("=") && arg.split("=").length == 2;
     }
 
-    @Override
-    public String toString() {
-        return "Configuration{" +
-                "groupId='" + groupId + '\'' +
-                ", artifactId='" + artifactId + '\'' +
-                ", serviceName='" + serviceName + '\'' +
-                ", withDatabase=" + withDatabase +
-                ", jsonDefinitionFile='" + jsonDefinitionFile + '\'' +
-                '}';
-    }
 }
