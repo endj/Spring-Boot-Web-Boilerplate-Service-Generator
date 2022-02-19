@@ -1,12 +1,12 @@
 {
-  "apple": "boolean",
+  "apple": "String",
   "somenumbers": [
-    "integer"
+    "String"
   ],
   "abc": [
     {
       "aa": "String",
-      "bb": "Integer"
+      "bb": "String"
     }
   ],
   "nested": {

@@ -4,12 +4,6 @@ import java.util.*;
 
 public class ModelParser {
 
-    public static void main(String[] args) throws Exception {
-        Object o = ModelParser.parseDomainModel(Files.readString(Path.of("./code-generation/defaultModel.json")));
-        SourceCodeGenerator.generateDomainObject(o, "Bazinga");
-    }
-
-
     @SuppressWarnings("unchecked")
     public static Object parseDomainModel(String data) {
 
